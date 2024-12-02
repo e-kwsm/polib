@@ -33,7 +33,7 @@ msgid "foo"
 msgstr "bar"
 ''')
         po = polib.pofile(data)
-        self.assertTrue(isinstance(po, polib.POFile))
+        self.assertIsInstance(po, polib.POFile)
         self.assertEqual(po.encoding, 'utf-8')
         self.assertEqual(po[0].msgstr, u("bar"))
 
@@ -42,21 +42,21 @@ msgstr "bar"
         Test that an indented pofile returns a POFile instance.
         """
         po = polib.pofile('tests/test_indented.po')
-        self.assertTrue(isinstance(po, polib.POFile))
+        self.assertIsInstance(po, polib.POFile)
 
     def test_pofile_and_mofile2(self):
         """
         Test that the pofile function returns a POFile instance.
         """
         po = polib.pofile('tests/test_utf8.po')
-        self.assertTrue(isinstance(po, polib.POFile))
+        self.assertIsInstance(po, polib.POFile)
 
     def test_pofile_and_mofile3(self):
         """
         Test  that the mofile function returns a MOFile instance.
         """
         mo = polib.mofile('tests/test_utf8.mo')
-        self.assertTrue(isinstance(mo, polib.MOFile))
+        self.assertIsInstance(mo, polib.MOFile)
 
     def test_pofile_and_mofile4(self):
         """
@@ -64,28 +64,28 @@ msgstr "bar"
         """
         po = polib.pofile('tests/test_iso-8859-15.po', check_for_duplicates=True,
                           autodetect_encoding=False, encoding='iso-8859-15')
-        self.assertTrue(po.check_for_duplicates == True)
+        self.assertTrue(po.check_for_duplicates)
 
     def test_pofile_and_mofile5(self):
         """
         Test that detect_encoding works as expected.
         """
         po = polib.pofile('tests/test_iso-8859-15.po')
-        self.assertTrue(po.encoding == 'ISO_8859-15')
+        self.assertEqual(po.encoding, 'ISO_8859-15')
 
     def test_pofile_and_mofile6(self):
         """
         Test that encoding is default_encoding when detect_encoding is False.
         """
         po = polib.pofile('tests/test_noencoding.po')
-        self.assertTrue(po.encoding == 'utf-8')
+        self.assertEqual(po.encoding, 'utf-8')
 
     def test_pofile_and_mofile7(self):
         """
         Test that encoding is ok when encoding is explicitly given.
         """
         po = polib.pofile('tests/test_iso-8859-15.po', encoding='iso-8859-15')
-        self.assertTrue(po.encoding == 'iso-8859-15')
+        self.assertEqual(po.encoding, 'iso-8859-15')
 
     def test_pofile_and_mofile8(self):
         """
@@ -99,7 +99,7 @@ msgstr "bar"
         Test that obsolete previous msgid are ignored
         """
         po = polib.pofile('tests/test_obsolete_previousmsgid.po')
-        self.assertTrue(isinstance(po, polib.POFile))
+        self.assertIsInstance(po, polib.POFile)
 
     def test_pofile_and_mofile10(self):
         """
@@ -107,7 +107,7 @@ msgstr "bar"
         """
         mo_bytes = b"\xde\x12\x04\x95\x00\x00\x00\x00\x05\x00\x00\x00\x1c\x00\x00\x00D\x00\x00\x00\x07\x00\x00\x00l\x00\x00\x00\x00\x00\x00\x00\x88\x00\x00\x00\x10\x00\x00\x00\x89\x00\x00\x00\x07\x00\x00\x00\x9a\x00\x00\x00\x0c\x00\x00\x00\xa2\x00\x00\x00\x0b\x00\x00\x00\xaf\x00\x00\x00(\x00\x00\x00\xbb\x00\x00\x00\n\x00\x00\x00\xe4\x00\x00\x00\x10\x00\x00\x00\xef\x00\x00\x00\x0f\x00\x00\x00\x00\x01\x00\x00\x16\x00\x00\x00\x10\x01\x00\x00\x01\x00\x00\x00\x03\x00\x00\x00\x05\x00\x00\x00\x00\x00\x00\x00\x04\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00SNAR_BEZEICHNUNG\x00conform\x00inconclusive\x00non-conform\x00Content-Type: text/plain; charset=UTF-8\n\x00Feldfrucht\x00\xc3\x9cbereinstimmung\x00Nicht eindeutig\x00Keine \xc3\x9cbereinstimmung\x00"
         mo = polib.mofile(mo_bytes)
-        self.assertTrue(isinstance(mo, polib.MOFile))
+        self.assertIsInstance(mo, polib.MOFile)
 
     def test_ufeff_data_pofile(self):
         """
@@ -122,14 +122,14 @@ msgid "foo"
 msgstr "bar"
 ''')
         po = polib.pofile(data)
-        self.assertTrue(isinstance(po, polib.POFile))
+        self.assertIsInstance(po, polib.POFile)
 
     def test_ufeff_pofile(self):
         """
         Test that an ufeff prefixed pofile returns a POFile instance.
         """
         po = polib.pofile('tests/test_ufeff.po')
-        self.assertTrue(isinstance(po, polib.POFile))
+        self.assertIsInstance(po, polib.POFile)
 
     def test_previous_msgid_1(self):
         """
@@ -425,7 +425,7 @@ class TestBaseFile(unittest.TestCase):
         pofile = polib.pofile('tests/test_pofile_helpers.po')
         entry = polib.POEntry(msgid="Foo", msgstr="Bar", msgctxt="Some context")
         pofile.append(entry)
-        self.assertTrue(entry in pofile)
+        self.assertIn(entry, pofile)
 
     def test_append2(self):
         def add_duplicate():
@@ -443,7 +443,7 @@ class TestBaseFile(unittest.TestCase):
         pofile = polib.pofile('tests/test_pofile_helpers.po', check_for_duplicates=True)
         entry = polib.POEntry(msgid="and", msgctxt="some different context")
         pofile.append(entry)
-        self.assertTrue(entry in pofile)
+        self.assertIn(entry, pofile)
 
     def test_insert1(self):
         pofile = polib.pofile('tests/test_pofile_helpers.po')
@@ -472,7 +472,7 @@ class TestBaseFile(unittest.TestCase):
     def test_find2(self):
         pofile = polib.pofile('tests/test_pofile_helpers.po')
         entry = pofile.find('pacote', by="msgstr")
-        self.assertEqual(entry, None)
+        self.assertIsNone(entry)
 
     def test_find3(self):
         pofile = polib.pofile('tests/test_pofile_helpers.po')
@@ -725,12 +725,12 @@ class TestPoFile(unittest.TestCase):
     def test_comment_starting_with_two_hashes(self):
         po = polib.pofile('tests/test_utf8.po')
         e = po.find("Some comment starting with two '#'", by='tcomment')
-        self.assertTrue(isinstance(e, polib.POEntry))
+        self.assertIsInstance(e, polib.POEntry)
 
     def test_word_garbage(self):
         po = polib.pofile('tests/test_word_garbage.po')
         e = po.find("Whatever", by='msgid')
-        self.assertTrue(isinstance(e, polib.POEntry))
+        self.assertIsInstance(e, polib.POEntry)
 
     def test_compare1(self):
         entry = polib.POEntry(msgid="foo")
@@ -764,16 +764,16 @@ class TestPoFile(unittest.TestCase):
     def test_compare6(self):
         entry = polib.POEntry(msgstr_plural={0: "Value", 1: "Values"}, msgid="foo")
         other = polib.POEntry(msgstr_plural={0: "Other value", 1: "Other values"}, msgid="foo")
-        self.assertTrue(entry > other)
+        self.assertGreater(entry, other)
 
     def test_compare7(self):
         entry = polib.POEntry(msgstr="Some msgstr", msgid="foo")
         other = polib.POEntry(msgstr="Other msgstr", msgid="foo")
-        self.assertTrue(entry >= other)
+        self.assertGreaterEqual(entry, other)
         self.assertNotEqual(entry, other)
         entry = polib.POEntry(msgstr="A msgstr", msgid="foo")
         other = polib.POEntry(msgstr="Other msgstr", msgid="foo")
-        self.assertTrue(entry <= other)
+        self.assertLessEqual(entry, other)
         self.assertNotEqual(entry, other)
 
     def test_compare8(self):
