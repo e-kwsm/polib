@@ -6,9 +6,9 @@
 all: lint test clean
 
 clean:
-	@find . -name '*.pyc' |xargs rm -f
-	@find . -name '*.pyo' |xargs rm -f
-	@find . -name '*.orig' |xargs rm -f
+	@find . -name '*.pyc' -delete
+	@find . -name '*.pyo' -delete
+	@find . -name '*.orig' -delete
 	@rm -rf MANIFEST build dist .coverage .tox __pycache__ docs/_build *.egg-info
 
 lint:
@@ -16,7 +16,7 @@ lint:
 	@pycodestyle -r polib.py && { echo >&2 "PEP8: congrats, everything is clean !"; }
 
 test:
-	@type tox >/dev/null 2>&1 && { tox; } || { ./runtests.sh; }
+	@if type tox >/dev/null 2>&1; then tox; else ./runtests.sh; fi
 
 dist: clean
 	@python setup.py register
